@@ -8,18 +8,30 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body id="social-page">
     <h1>Chat with Tom</h1>
+    <p>
+        <a href="friends.html">&lt; Back</a> |
+        <a href="profile.html">Profile</a> |
+        <a class="link-special" href="friends.html">Remove Friend</a>
+    </p>
+    <hr>
 
-    <p><a href="friends.html">&lt; Back</a> | <a href="profile.html">Profile</a> | <a class="link-special"
-            href="friends.html">Remove Friend</a></p>
+    <ul class="chat-history">
+        <li class="text-row">
+            <span class="message-content">Tom: Hallo, Welt!</span>
+            <span class="timestamp">19:43:01</span>
+        </li>
+        <li class="text-row">
+            <span class="message-content">Jerry: Wie gehts?</span>
+            <span class="timestamp">19:57:20</span>
+        </li>
+    </ul>
     <hr>
-    <p>Tom: Hallo, Welt!</p>
-    <p>Jerry: Wie gehts?</p>
-    <hr>
+
     <form>
-        <input placeholder="New Message">
-        <button>Send</button>
+        <input type="text" placeholder="New Message">
+        <button class="btn-friend-list">Send</button>
     </form>
 </body>
 

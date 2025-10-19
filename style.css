@@ -1,10 +1,11 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    color: #333;
-
+    font-weight: 540;
+    color: #000000;
+    background-color: #f7f7f7;
     max-width: 900px;
     margin: 20px auto;
-    padding: 0 15px;
+    padding: 0px 15px;
 }
 
 h1,
@@ -15,8 +16,12 @@ h3 {
 
 hr {
     border: 0;
-    border-top: 1px dotted;
+    border-top: 2px dotted #aaaaaa;
     margin: 20px;
+}
+
+#social-page hr {
+    margin: 5px;
 }
 
 a {
@@ -39,10 +44,13 @@ a:hover {
 }
 
 .container {
-    max-width: 450px;
-    margin: 40px auto;
+    max-width: 500px;
+    margin: auto;
     text-align: center;
-    padding: 30px;
+}
+
+.container legend {
+    text-align: left;
 }
 
 .container img {
@@ -51,12 +59,121 @@ a:hover {
     border-radius: 100%;
 }
 
-.container legend {
-    text-align: left;
+ul {
+    background-color: #ffffff;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.text-row,
+.friend-list li,
+.friend-list li a {
+    padding: 10px;
+    list-style: none;
+    color: black;
+}
+
+.text-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.notification {
+    color: white;
+    background-color: #1c86ff;
+    padding: 2px 6px;
+    font-size: 12px;
+    border-radius: 2px;
+}
+
+.timestamp {
+    color: #aaaaaa;
 }
 
 fieldset {
-    border: 1px dotted;
-    padding: 20px;
+    background-color: #ffffff;
+    border: 2px dotted #CCC;
+    padding: 10px;
     margin-bottom: 20px;
+
+}
+
+.data label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+input[type="radio"] {
+    margin: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+div select {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 50%;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid #aaaaaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+#social-page input[type="text"] {
+    height: 40px;
+    width: 70%;
+    padding-left: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    box-sizing: border-box;
+    resize: none
+}
+
+button {
+    background-color: #aaaaaa;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #888888;
+}
+
+.btn-blue {
+    background-color: #1c86ff;
+}
+.btn-blue:hover {
+    background-color: #1873db;
+}
+
+.btn-friend-request {
+    width: 10%;
+    height: 40px;
+    padding: 10px;
+    margin-left: 10px;
+}
+
+.btn-friend-list {
+    width: 20%;
+    height: 40px;
+    margin-left: 10px;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
