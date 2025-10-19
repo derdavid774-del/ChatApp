@@ -1,6 +1,5 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: 540;
     color: #000000;
     background-color: #f7f7f7;
     max-width: 900px;
@@ -59,24 +58,50 @@ a:hover {
     border-radius: 100%;
 }
 
+.profile img {
+    width: 300px;
+    height: 300px;
+}
+
+dt {
+    font-weight: bold;
+}
+
 ul {
     background-color: #ffffff;
     border: 1px solid #CCC;
     border-radius: 4px;
+}
+
+.chat-history,
+.friend-list {
     padding: 10px;
 }
 
-.text-row,
-.friend-list li,
-.friend-list li a {
+.content,
+.content a {
     padding: 10px;
     list-style: none;
     color: black;
 }
 
-.text-row {
+.profile-content {
+    list-style: none;
+    color: black;
+    padding-right: 30px;
+    padding-bottom: 15px;
+}
+
+.content {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 40px;
 }
 
 .notification {
@@ -96,7 +121,6 @@ fieldset {
     border: 2px dotted #CCC;
     padding: 10px;
     margin-bottom: 20px;
-
 }
 
 .data label {
@@ -113,7 +137,7 @@ input[type="radio"] {
 input[type="text"],
 input[type="password"],
 textarea,
-div select {
+select {
     font-family: Arial, Helvetica, sans-serif;
     width: 50%;
     padding: 5px;
@@ -135,7 +159,7 @@ textarea {
     width: 100%;
     height: 150px;
     box-sizing: border-box;
-    resize: none
+    resize: vertical;
 }
 
 button {
@@ -160,14 +184,12 @@ button:hover {
 }
 
 .btn-friend-request {
-    width: 10%;
     height: 40px;
     padding: 10px;
     margin-left: 10px;
 }
 
 .btn-friend-list {
-    width: 20%;
     height: 40px;
     margin-left: 10px;
 }
