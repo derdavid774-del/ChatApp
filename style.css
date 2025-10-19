@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+h1,
+h2,
+h3 {
+    color: #000;
+}
+
+hr {
+    border: 0;
+    border-top: 1px dotted;
+    margin: 20px;
+}
+
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+.link-special {
+    color: red;
+}
+
+.link-special:hover {
+    color: #cc0000;
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 450px;
+    margin: 40px auto;
+    text-align: center;
+    padding: 30px;
+}
+
+.container img {
+    border-radius: 100%;
+}
+
+.container legend {
+    text-align: left;
+}
+
+fieldset {
+    border: 1px dotted;
+    padding: 20px;
+    margin-bottom: 20px;
+}
