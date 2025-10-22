@@ -1,3 +1,4 @@
+/* Format */
 body {
     font-family: Arial, Helvetica, sans-serif;
     color: #000000;
@@ -7,22 +8,16 @@ body {
     padding: 0px 15px;
 }
 
-h1,
-h2,
-h3 {
+h1, h2, h3 {
     color: #000;
 }
 
 hr {
     border: 0;
-    border-top: 2px dotted #aaaaaa;
-    margin: 20px;
+    border-top: 3px dotted #aaaaaa;
 }
 
-#social-page hr {
-    margin: 5px;
-}
-
+/* Links */
 a {
     color: #0066cc;
     text-decoration: none;
@@ -42,10 +37,64 @@ a:hover {
     text-decoration: underline;
 }
 
+/* Lists */
+dt {
+    font-weight: bold;
+}
+
+ul {
+    background-color: #ffffff;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+/* Container */
+fieldset {
+    background-color: #ffffff;
+    border: 2px dotted #CCC;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+fieldset.data label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top: 15px;
+}
+
 .container {
     max-width: 500px;
     margin: auto;
     text-align: center;
+}
+
+.container-wide {
+    padding: 10px;
+}
+
+.container-radio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.container-txt-btn {
+    display: flex;
+    gap: 10px;
+}
+
+.container-btn {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
 
 .container legend {
@@ -63,19 +112,10 @@ a:hover {
     height: 300px;
 }
 
-dt {
-    font-weight: bold;
-}
-
-ul {
-    background-color: #ffffff;
-    border: 1px solid #CCC;
-    border-radius: 4px;
-}
-
-.chat-history,
-.friend-list {
-    padding: 10px;
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .content,
@@ -83,25 +123,6 @@ ul {
     padding: 10px;
     list-style: none;
     color: black;
-}
-
-.profile-content {
-    list-style: none;
-    color: black;
-    padding-right: 30px;
-    padding-bottom: 15px;
-}
-
-.content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.profile {
-    display: flex;
-    align-items: center;
-    gap: 40px;
 }
 
 .notification {
@@ -116,43 +137,30 @@ ul {
     color: #aaaaaa;
 }
 
-fieldset {
-    background-color: #ffffff;
-    border: 2px dotted #CCC;
-    padding: 10px;
-    margin-bottom: 20px;
-}
-
-.data label {
-    display: inline-block;
-    width: 150px;
-    text-align: right;
-    vertical-align: middle;
-}
-
-input[type="radio"] {
-    margin: 10px;
+/* Formular Inputs */
+#friends-page input[type="text"] {
+    width: 100%;
+    padding: 10px 20px;
+    margin: 0;
 }
 
 input[type="text"],
 input[type="password"],
 textarea,
 select {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: inherit;
     width: 50%;
     padding: 5px;
     margin: 5px;
     border: 1px solid #aaaaaa;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 100%;
     vertical-align: middle;
 }
 
-#social-page input[type="text"] {
-    height: 40px;
-    width: 70%;
-    padding-left: 20px;
+input[type="radio"] {
+    margin: 10px;
 }
 
 textarea {
@@ -162,6 +170,7 @@ textarea {
     resize: vertical;
 }
 
+/* Button */
 button {
     background-color: #aaaaaa;
     color: white;
@@ -169,33 +178,43 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
+    box-sizing: border-box;
+    font-size: 100%;
+}
+
+.btn-small {
+    margin-left: 10px;
+}
+
+.btn-blue {
+    background-color: #1c86ff;
 }
 
 button:hover {
     background-color: #888888;
 }
 
-.btn-blue {
-    background-color: #1c86ff;
-}
 .btn-blue:hover {
     background-color: #1873db;
 }
 
-.btn-friend-request {
-    height: 40px;
-    padding: 10px;
-    margin-left: 10px;
-}
 
-.btn-friend-list {
-    height: 40px;
-    margin-left: 10px;
-}
+/* Responsive Design */
+@media screen and (max-width: 900px) {
 
-.btn-container {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
+    fieldset.data label {
+        display: block; 
+        width: 100%; 
+        text-align: left; 
+        margin-bottom: 5px; 
+    }
+
+    input[type="text"],
+    input[type="password"],
+    textarea,
+    select {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
 }

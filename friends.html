@@ -8,27 +8,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body id="social-page">
+<body id="friends-page">
     <h1>Friends</h1>
-    <p>
+    <nav class="page-navigation">
         <a href="logout.html">&lt; Logout</a> | 
         <a href="settings.html">Settings</a>
-    </p>
+    </nav>
     <hr>
-    <ul class="friend-list">
+
+    <ul class="container-wide">
         <li class="content">
-            <span class="friend-user"><a  href="chat.html">Tom</a></span>
+            <span class="friend-user"><a href="chat.html">Tom</a></span>
             <span class="notification">3</span>
         </li>
+
         <li class="content">
-            <span class="friend-user"><a  href="chat.html">Marvin</a></span>
+            <span class="friend-user"><a href="chat.html">Marvin</a></span>
             <span class="notification">1</span>
         </li>
+
         <li class="content">
             <span class="friend-user"><a href="chat.html">Tick</a></span>
         </li>
+
         <li class="content">
-            <span class="friend-user"><a  href="chat.html">Trick</a></span>
+            <span class="friend-user"><a href="chat.html">Trick</a></span>
         </li>
     </ul>
     <hr>
@@ -36,16 +40,23 @@
     <h2>New Requests</h2>
     <ol>
         <li>
-            Friend Request from <strong>Track</strong>
-            <button class="btn-friend-request">Accept</button>
-            <button class="btn-friend-request">Reject</button>
+            <div class="friend-request">
+                <span class="request-msg">Friend Request from</span>
+                <span class="requestee"><strong>Track</strong></span>
+                <span>
+                    <button class="btn-small">Accept</button>
+                    <button class="btn-small">Reject</button>
+                </span>
+            </div>
         </li>
     </ol>
     <hr>
 
     <form>
-        <input type="text" placeholder="Add Friend to List">
-        <button class="btn-friend-list">Add</button>
+        <div class="container-txt-btn">
+            <input id="add-friend" name="add-friend" type="text" placeholder="Add Friend to List">
+            <button for="add-friend" type="submit" class="btn-small">Add</button>
+        </div>
     </form>
 </body>
 
