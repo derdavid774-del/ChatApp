@@ -11,7 +11,7 @@
 <body id="friends-page">
     <h1>Friends</h1>
     <nav class="page-navigation">
-        <a href="logout.html">&lt; Logout</a> | 
+        <a href="logout.html">&lt; Logout</a> |
         <a href="settings.html">Settings</a>
     </nav>
     <hr>
@@ -45,7 +45,7 @@
                 <span class="requestee"><strong>Track</strong></span>
                 <div class="container-rqst-btn">
                     <button class="btn-small">Accept</button>
-                    <button class="btn-small">Reject</button> 
+                    <button class="btn-small">Reject</button>
                 </div>
             </li>
         </ol>
@@ -54,10 +54,15 @@
 
     <form>
         <div class="container-txt-btn">
-            <input id="add-friend" name="add-friend" type="text" placeholder="Add Friend to List">
-            <button for="add-friend" type="submit" class="btn-small">Add</button>
+            <input id="friend-request-name" name="friendRequestName" type="text" placeholder="Add Friend to List"
+                list="friend-selector">
+            <button id="add-friend-btn" type="button" class="btn-small">Add</button>
         </div>
     </form>
+
+    <datalist id="friend-selector">
+    </datalist>
+    <script src="main.js"></script>
 </body>
 
 </html>
