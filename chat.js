@@ -1,11 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const friend = document.querySelector('h1')
     const chatList = document.getElementById('chat');
     const messageForm = document.querySelector('form');
     const messageInput = document.getElementById('send-msg');
 
+    function getChatpartner() {
+        const url = new URL(window.location.href);
+        const queryParams = url.searchParams;
+        const friendValue = queryParams.get("friend");
+        console.log("Friend:", friendValue);
+        return friendValue;
+    }
+    const chatpartner = getChatpartner();
+    friend.textContent = 'Chat with ' + chatpartner;
+
     function loadMessages() {
         const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiVG9tIiwiaWF0IjoxNzYyNjMyNTE2fQ.0IdQopPOUYM_WFuxoF5idej0_ezOKm1RGQL1uYEcD84';
-        const url = 'https://online-lectures-cs.thi.de/chat/104012ba-aafc-4150-8e92-7c78aa9b19f5/message/Jerry';
+        const url = 'https://online-lectures-cs.thi.de/chat/104012ba-aafc-4150-8e92-7c78aa9b19f5/message/' + chatpartner;
 
         fetch(url, {
             method: 'GET',
@@ -45,16 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             })
             .catch(error => {
-                console.error('Fehler beim Laden der Nachrichten:', error);
+                console.error('Error on loading messages:', error);
             });
     }
 
     function sendMessage(event) {
         event.preventDefault();
 
-        const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiSmVycnkiLCJpYXQiOjE3NjI2MzI1MTZ9.1DwfaDMRkVu4cLn5BeOfSITCpjRjaizghTXiYm4X_Rs';
+        const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiVG9tIiwiaWF0IjoxNzYyNjMyNTE2fQ.0IdQopPOUYM_WFuxoF5idej0_ezOKm1RGQL1uYEcD84';
         const url = 'https://online-lectures-cs.thi.de/chat/104012ba-aafc-4150-8e92-7c78aa9b19f5/message';
-        
+
         const text = messageInput.value;
         if (text.trim() === '') return;
 
@@ -66,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({
                 message: text,
-                to: 'Tom'
+                to: getChatpartner()
             })
         })
             .then(response => {
@@ -76,10 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => {
-                console.error('Fehler beim Senden der Nachricht:', error);
+                console.error('Error when sending message:', error);
             });
     }
-
     messageForm.addEventListener('submit', sendMessage);
 
     loadMessages();
