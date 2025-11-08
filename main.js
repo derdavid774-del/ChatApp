@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 } else if (friendsRequest.readyState == 4) {
                     console.error(
-                        "Fehler beim Aktualisieren der Freundesliste:",
+                        "Error updating friend list:",
                         friendsRequest.status
                     );
                 }
@@ -164,13 +164,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const postRequest = new XMLHttpRequest();
             postRequest.onreadystatechange = function () {
                 if (postRequest.readyState == 4 && postRequest.status == 204) {
-                    alert(`Freundschaftsanfrage an ${usernameToAdd} gesendet!`);
+                    alert(`Friend request sent to ${usernameToAdd}!`);
                     friendInputElement.value = "";
                     friendInputElement.style.border = "";
 
                     loadFriends();
                 } else if (postRequest.readyState == 4) {
-                    alert("Die Freundschaftsanfrage konnte nicht gesendet werden.");
+                    alert("The friend request could not be sent.");
                 }
             };
 
