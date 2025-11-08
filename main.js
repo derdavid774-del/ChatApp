@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             } else if (usersRequest.readyState == 4) {
                 alert(
-                    "Kritischer Fehler: Benutzerliste konnte nicht geladen werden. Die Seite funktioniert nicht korrekt."
+                    "Critical Error: User list could not be loaded. The page will not function correctly."
                 );
             }
         };
