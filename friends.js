@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    window.backendUrl = "https://online-lectures-cs.thi.de/chat/59485b60-9408-440b-b2e4-f534c8cf245f";
-    window.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiVG9tIiwiaWF0IjoxNzYyNjM2ODg0fQ.IpW-25__0PlC2i0qGOFmQpcDGWS7FSu4LB9iG0G4qUo";
+    window.backendUrl = "https://online-lectures-cs.thi.de/chat/5929e8ea-f3a6-4ae3-b9b4-c0d0971e0f03";
+    window.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiVG9tIiwiaWF0IjoxNzYyODg5MzM3fQ.xmQhTmEqWai5zai8-U7_eV7bzCV1puiNRZmwl_vRYKo";
 
     const currentUsername = "Tom";
 
