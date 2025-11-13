@@ -129,6 +129,20 @@ document.addEventListener("DOMContentLoaded", () => {
         friendsRequest.send();
     }
 
+    function loadUsers() {
+        const req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+            if (req.readyState == 4 && req.status == 200) {
+                allUsersCache = JSON.parse(req.responseText);
+            } else if (req.readyState == 4) {
+                console.error("Error updating user list:", req.status);
+            }
+        };
+        req.open("GET", window.backendUrl + "/user", true);
+        req.setRequestHeader("Authorization", "Bearer " + window.token);
+        req.send();
+    }
+
     function handleAddFriendClick() {
         const usernameToAdd = friendInputElement.value.trim();
 
@@ -182,25 +196,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     addButtonElement.addEventListener("click", handleAddFriendClick);
 
-    const usersRequest = new XMLHttpRequest();
-    usersRequest.onreadystatechange = function () {
-        if (usersRequest.readyState == 4 && usersRequest.status == 200) {
+    const initialUsersRequest = new XMLHttpRequest();
+    initialUsersRequest.onreadystatechange = function () {
+        if (initialUsersRequest.readyState == 4 && initialUsersRequest.status == 200) {
+            allUsersCache = JSON.parse(initialUsersRequest.responseText);
 
-            allUsersCache = JSON.parse(usersRequest.responseText);
-            window.setInterval(loadFriends, 1000);
+            window.setInterval(function () {
+                loadFriends();
+                loadUsers();
+            }, 1000);
 
-        } else if (usersRequest.readyState == 4) {
+        } else if (initialUsersRequest.readyState == 4) {
             alert(
                 "Critical Error: User list could not be loaded. The page will not function correctly."
             );
         }
     };
-    usersRequest.open("GET", window.backendUrl + "/user", true);
-    usersRequest.setRequestHeader(
-        "Authorization",
-        "Bearer " + window.token
-    );
-    usersRequest.send();
+    initialUsersRequest.open("GET", window.backendUrl + "/user", true);
+    initialUsersRequest.setRequestHeader("Authorization", "Bearer " + window.token);
+    initialUsersRequest.send();
 
     loadFriends();
 });

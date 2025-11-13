@@ -8,7 +8,9 @@ body {
     padding: 0px 15px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     color: #000;
 }
 
@@ -203,6 +205,10 @@ button:hover {
     background-color: #1873db;
 }
 
+.friend-request li {
+    margin-bottom: 8px;
+}
+
 
 /* Responsive Design */
 @media screen and (max-width: 700px) {
@@ -215,10 +221,10 @@ button:hover {
 
     fieldset.data label,
     .profile {
-        display: block; 
-        width: 100%; 
-        text-align: left; 
-        margin-bottom: 5px; 
+        display: block;
+        width: 100%;
+        text-align: left;
+        margin-bottom: 5px;
     }
 
     .profile img {
