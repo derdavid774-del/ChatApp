@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body id="friends-page">
+    <h1>Friends</h1>
+    <nav class="page-navigation">
+        <a href="logout.php">&lt; Logout</a> |
+        <a href="settings.php">Settings</a>
+    </nav>
+    <hr>
+
+    <ul class="container-wide">
+        <li class="content">
+            <span class="friend-user"><a href="chat.php">You have no friends.</a></span>
+        </li>
+    </ul>
+    <hr>
+
+    <h2>New Requests</h2>
+    <div class="friend-request">
+        <ol>
+            <li>
+                <span class="request-msg">Friend Request from</span>
+                <span class="requestee"><strong>Track</strong></span>
+                <div class="container-rqst-btn">
+                    <button class="btn-small">Accept</button>
+                    <button class="btn-small">Reject</button>
+                </div>
+            </li>
+        </ol>
+    </div>
+    <hr>
+
+    <form>
+        <div class="container-txt-btn">
+            <input id="friend-request-name" name="friendRequestName" type="text" placeholder="Add Friend to List"
+                list="friend-selector">
+            <button id="add-friend-btn" type="button" class="btn-small">Add</button>
+        </div>
+    </form>
+
+    <datalist id="friend-selector"></datalist>
+    <script src="friends.js"></script>
+</body>
+
+</html>

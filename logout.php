@@ -13,7 +13,7 @@
         <img src="images/logout.png" alt="Chat App Logo">
         <h1>Logged out...</h1>
         <p>See u!</p>
-        <a href="login.html">Login again</a>
+        <a href="login.php">Login again</a>
     </div>
 </body>
 

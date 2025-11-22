@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Profile Settings</h1>
+    <form id="settings">
+        <fieldset class="data">
+            <legend>Base Data</legend>
+            <div class="container">
+                <label for="name">First Name</label>
+                <input id="name" name="name" type="text" placeholder="Your name">
+
+                <label for="surname">Last Name</label>
+                <input id="surname" name="surname" type="text" placeholder="Your surname">
+
+                <label for="preference">Coffee or Tea?</label>
+                <select id="preference" name="preference">
+                    <option>Neither nor</option>
+                    <option>Coffee</option>
+                    <option>Tea</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Tell Something About You</legend>
+            <textarea placeholder="Leave a comment here"></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>Prefered Chat Layout</legend>
+            <div class="container-radio">
+                <input id="oneLine" name="layout" type="radio" value="oneLine">
+                <label for="oneLine">Username and message in one line</label><br>
+            </div>
+
+            <div class="container-radio">
+                <input id="separatedLines" name="layout" type="radio" value="separatedLines">
+                <label for="separatedLines">Username and message in separated lines</label>
+            </div>
+        </fieldset>
+    </form>
+
+    <div class="container-btn">
+        <form action="friends.php" method="get">
+            <button>Cancel</button>
+        </form>
+        <button class="btn-blue" form="settings">Save</button>
+    </div>
+</body>
+
+</html>

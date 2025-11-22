@@ -13,7 +13,7 @@
         <img src="images/user.png" alt="Chat App Logo">
 
         <h1>Register yourself</h1>
-        <form id="register" action="friends.html" method="get">
+        <form id="register" action="friends.php" method="get">
             <fieldset class="data">
                 <legend>Register</legend>
                 <label for="username">Username</label>
@@ -29,7 +29,7 @@
         </form>
 
         <div class="container-btn">
-            <form action="login.html" method="get">
+            <form action="login.php" method="get">
                 <button>Cancel</button>
             </form>
             <button class="btn-blue" form="register">Create Account</button>

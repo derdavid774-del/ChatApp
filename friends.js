@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         //Query-Parameter
                         const userLink = document.createElement("a");
-                        userLink.href = "chat.html?friend=" + friend.username;
+                        userLink.href = "chat.php?friend=" + friend.username;
                         userLink.textContent = friend.username;
                         userSpan.appendChild(userLink);
 

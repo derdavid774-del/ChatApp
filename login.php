@@ -13,7 +13,7 @@
         <img src="images/chat.png" alt="Chat App Logo">
 
         <h1>Please sign in</h1>
-        <form id="signIn" action="friends.html" method="get">
+        <form id="signIn" action="friends.php" method="get">
             <fieldset class="data">
                 <legend>Login</legend>
                 <label for="username">Username</label>
@@ -25,7 +25,7 @@
         </form>
 
         <div class="container-btn">
-            <form action="register.html" method="get">
+            <form action="register.php" method="get">
                 <button>Register</button>
             </form>
             <button class="btn-blue" form="signIn">Login</button>
