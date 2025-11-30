@@ -1,3 +1,6 @@
+<?php
+require("start.php");
+?>
 <!DOCTYPE html>
 <html lang="de">
 

@@ -36,6 +36,15 @@ class BackendService{
         $this->id = $id;
     }
 
+     public function test() {
+        try {
+            return HttpClient::get($this->base . '/test.json');
+        } catch(\Exception $e) {
+            error_log($e);
+        }
+        return false;
+    }
+
     /**
      * Liefert true, wenn eine gültige Benutzername/Password-Kombination
      * übergeben wurde. Zudem wird das erhaltene Token in der Session
