@@ -19,6 +19,12 @@ hr {
     border-top: 3px dotted #aaaaaa;
 }
 
+.error {
+    color: red;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
 /* Links */
 a {
     color: #0066cc;

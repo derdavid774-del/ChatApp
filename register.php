@@ -1,5 +1,22 @@
 <?php
-require("start.php");
+    require("start.php");
+
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $password2 = $_POST['confirm-password'] ?? '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($username && mb_strlen($username) >= 3 && $service->userExists($username) === false 
+            && $password && mb_strlen($password) >= 8 && $password === $password2) {
+            if ($service->register($username, $password)) {
+                $_SESSION['user'] = $username;
+                header("Location: friends.php");
+            } else {
+                $error = 'Register failed due to server error. Please try again later.';
+            }
+        } else {
+            $error = 'Register failed! Please check your input.';
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -16,7 +33,7 @@ require("start.php");
         <img src="images/user.png" alt="Chat App Logo">
 
         <h1>Register yourself</h1>
-        <form id="register" action="friends.php" method="get">
+        <form id="register" method="post">
             <fieldset class="data">
                 <legend>Register</legend>
                 <label for="username">Username</label>
@@ -30,7 +47,11 @@ require("start.php");
                     required>
             </fieldset>
         </form>
-
+        
+        <?php if (isset($error)) { ?>
+                <div class="error"> <?= $error ?> </div>
+        <?php } ?>
+        
         <div class="container-btn">
             <form action="login.php" method="get">
                 <button>Cancel</button>
