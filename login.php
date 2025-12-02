@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
         header("Location: friends.php");
         exit(); 
     } else {
-        echo "<script>alert('Invalid username or password. Please try again.');</script>";
+        $error = 'Invalid username or password! Please try again.';
     }
 }
 
@@ -45,6 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
                 <input type="password" id="password" name="password" placeholder="Password" required>
             </fieldset>
         </form>
+
+        <?php if (isset($error)) { ?>
+                <div class="error"> <?= $error ?> </div>
+        <?php } ?>
 
         <div class="container-btn">
             <form action="register.php" method="get">
