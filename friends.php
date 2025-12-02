@@ -1,6 +1,34 @@
 <?php
     require("start.php");
 
+    $allUsers = $service->loadUsers();
+    $friends = $service->loadFriends();
+    $existingFriendNames = [];
+    
+    foreach ($friends as $friend) {
+        $existingFriendNames[] = $friend->getUsername();
+    }
+
+    $availableUsers = array_filter($allUsers, function($user) use ($existingFriendNames) {
+        return $user !== $_SESSION['user'] && !in_array($user, $existingFriendNames);
+    });
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        if (isset($data['action']) && $data['action'] === 'accept') {
+            $service->friendAccept($data['username']);
+        } 
+        elseif (isset($data['action']) && $data['action'] === 'reject') {
+            $service->friendDismiss($data['username']);
+        }
+        else {
+            $service->friendRequest($data['username']);
+        }
+        http_response_code(204);
+        exit();
+    }
+
     if (isset($_SESSION['user'])) {
         if (isset($_GET['action']) && $_GET['action'] === 'remove' && isset($_GET['friend'])) {
             $friendToRemove = $_GET['friend'];
@@ -42,7 +70,7 @@
 
     <ul class="container-wide">
         <li class="content">
-            <span class="friend-user"><a href="chat.php">You have no friends.</a></span>
+            <span class="friend-user"><p>You have no friends.</p></span>
         </li>
     </ul>
     <hr>
@@ -65,7 +93,12 @@
         </div>
     </form>
 
-    <datalist id="friend-selector"></datalist>
+    <datalist id="friend-selector">
+        <?php foreach ($availableUsers as $user): ?>
+            <option value="<?= htmlspecialchars($user) ?>">
+        <?php endforeach; ?>
+    </datalist>
+
     <script src="friends.js"></script>
 </body>
 

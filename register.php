@@ -8,6 +8,7 @@
         if ($username && mb_strlen($username) >= 3 && $service->userExists($username) === false 
             && $password && mb_strlen($password) >= 8 && $password === $password2) {
             if ($service->register($username, $password)) {
+                $service->login($username, $password);
                 $_SESSION['user'] = $username;
                 header("Location: friends.php");
                 exit();

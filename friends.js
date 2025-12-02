@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    window.backendUrl = "ajax_load_friends.php";
-    window.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiVG9tIiwiaWF0IjoxNzYyODg5MzM3fQ.xmQhTmEqWai5zai8-U7_eV7bzCV1puiNRZmwl_vRYKo";
-    const backendService = "ajax_load_friends.php";
-
     const currentUsername = "Tom";
 
     const friendsListContainer = document.querySelector(
@@ -16,16 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const datalistElement = document.getElementById("friend-selector");
     const addButtonElement = document.getElementById("add-friend-btn");
 
-    let allUsersCache = [];
     let currentFriendUsernames = [];
 
     function loadFriends() {
         const friendsRequest = new XMLHttpRequest();
-
         friendsRequest.onreadystatechange = function() {
             if (friendsRequest.readyState == 4 && friendsRequest.status == 200) {
                 const friends = JSON.parse(friendsRequest.responseText);
-
                 currentFriendUsernames = friends.map((friend) => friend.username);
 
                 friendsListContainer.innerHTML = "";
@@ -35,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 let hasRequests = false;
 
                 friends.forEach((friend) => {
-                    if (friend.status !== "requested") {
+                    if (friend.status === "accepted") {
                         const li = document.createElement("li");
                         li.className = "content";
 
@@ -48,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         userLink.textContent = friend.username;
                         userSpan.appendChild(userLink);
                         li.appendChild(userSpan);
-
 
                         if (friend.unread && friend.unread > 0) {
                             const notifySpan = document.createElement("span");
@@ -83,12 +75,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         acceptBtn.className = "btn-small";
                         acceptBtn.name = "acceptBtn";
                         acceptBtn.textContent = "Accept";
+                        acceptBtn.onclick = function() { 
+                            handleRequestAction(friend.username, 'accept'); 
+                        };
                         btnContainer.appendChild(acceptBtn);
 
                         const rejectBtn = document.createElement("button");
                         rejectBtn.className = "btn-small";
                         rejectBtn.name = "rejectBtn";
                         rejectBtn.textContent = "Reject";
+                        rejectBtn.onclick = function() { 
+                            handleRequestAction(friend.username, 'reject'); 
+                        };
                         btnContainer.appendChild(rejectBtn);
 
                         li.appendChild(btnContainer);
@@ -100,44 +98,33 @@ document.addEventListener("DOMContentLoaded", () => {
                     requestsHeader.style.display = "block";
                 }
 
-                datalistElement.innerHTML = "";
-
-                const filteredUsers = allUsersCache.filter((user) => {
-                    const isCurrentUser = user === currentUsername;
-                    const isAlreadyFriend = currentFriendUsernames.includes(user);
-                    return !isCurrentUser && !isAlreadyFriend;
-                });
-
-                filteredUsers.forEach((user) => {
-                    const option = document.createElement("option");
-                    option.value = user;
-                    datalistElement.appendChild(option);
-                });
-
             } else if (friendsRequest.readyState == 4) {
-                console.error(
-                    "Error updating friend list:",
-                    friendsRequest.status
-                );
+                console.error("Error updating friend list:", friendsRequest.status);
             }
         };
 
-        friendsRequest.open("GET", window.backendUrl + "/user", true);
+        friendsRequest.open("GET", "ajax_load_friends.php", true);
         friendsRequest.send();
     }
 
-    function loadUsers() {
+    function handleRequestAction(username, action) {
         const req = new XMLHttpRequest();
         req.onreadystatechange = function() {
-            if (req.readyState == 4 && req.status == 200) {
-                allUsersCache = JSON.parse(req.responseText);
-            } else {
-                console.error("Error updating user list:", req.status);
+            if (req.readyState == 4) {
+                if(req.status == 200 || req.status == 204) {
+                    loadFriends();
+                } else {
+                    alert("action failed.");
+                }
             }
         };
-        req.open("GET", window.backendUrl + "/user", true);
-        req.setRequestHeader("Authorization", "Bearer " + window.token);
-        req.send();
+        
+        req.open("POST", "friends.php", true); 
+        req.setRequestHeader("Content-type", "application/json");
+        req.send(JSON.stringify({ 
+            username: username, 
+            action: action
+        }));
     }
 
     function handleAddFriendClick() {
@@ -161,53 +148,48 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        if (!allUsersCache.includes(usernameToAdd)) {
-            alert("This user does not exist.");
-            friendInputElement.style.border = "2px solid red";
-            return;
-        }
-
-        const postRequest = new XMLHttpRequest();
-        postRequest.onreadystatechange = function() {
-            if (postRequest.readyState == 4 && postRequest.status == 204) {
-                alert(`Friend request sent to ${usernameToAdd}!`);
-                friendInputElement.value = "";
-                friendInputElement.style.border = "";
-                loadFriends();
-            } else {
-                alert("The friend request could not be sent.");
+     const checkReq = new XMLHttpRequest();
+        checkReq.onreadystatechange = function() {
+            if (checkReq.readyState == 4) {
+                if (checkReq.status == 204 || checkReq.status == 200) {
+                    sendFriendRequest(usernameToAdd);
+                } else {
+                    alert("Benutzer existiert nicht.");
+                    friendInputElement.style.border = "2px solid red";
+                }
             }
         };
 
-        postRequest.open("POST", window.backendUrl + "/friend", true);
+        checkReq.open("GET", "ajax_check_user.php?user=" + encodeURIComponent(usernameToAdd), true);
+        checkReq.send();
+    }
+
+    function sendFriendRequest(username) {
+        const postRequest = new XMLHttpRequest();
+        postRequest.onreadystatechange = function() {
+            if (postRequest.readyState == 4) {
+                if (postRequest.status == 204 || postRequest.status == 200) {
+                    alert(`Request has been sent to ${username}!`);
+                    friendInputElement.value = "";
+                    friendInputElement.style.border = "";
+                    loadFriends();
+                } else {
+                    alert("Error while sending the request.");
+                }
+            }
+        };
+
+        postRequest.open("POST", "friends.php", true);
         postRequest.setRequestHeader("Content-type", "application/json");
-        postRequest.setRequestHeader(
-            "Authorization",
-            "Bearer " + window.token
-        );
-        let data = {username: usernameToAdd};
-        let jsonString = JSON.stringify(data);
-        postRequest.send(jsonString);
+        postRequest.send(JSON.stringify({ username: username, action: 'add' }));
     }
 
     addButtonElement.addEventListener("click", handleAddFriendClick);
 
-    const initialUsersRequest = new XMLHttpRequest();
-    initialUsersRequest.onreadystatechange = function() {
-        if (initialUsersRequest.readyState == 4 && initialUsersRequest.status == 200) {
-            allUsersCache = JSON.parse(initialUsersRequest.responseText);
-
-            window.setInterval(function() {
-                loadFriends();
-                loadUsers();
-            }, 1000);
-        } else {
-            alert("Critical Error: User list could not be loaded. The page will not function correctly.");
-        }
-    };
-    initialUsersRequest.open("GET", window.backendUrl + "/user", true);
-    initialUsersRequest.setRequestHeader("Authorization", "Bearer " + window.token);
-    initialUsersRequest.send();
-
     loadFriends();
+
+    window.setInterval(function() {
+        loadFriends();
+        loadUsers();
+    }, 1000);
 });

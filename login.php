@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
         <img src="images/chat.png" alt="Chat App Logo">
 
         <h1>Please sign in</h1>
-        <form id="signIn" action="friends.php" method="POST">
+        <form id="signIn" action="login.php" method="POST">
             <fieldset class="data">
                 <legend>Login</legend>
                 <label for="username">Username</label>

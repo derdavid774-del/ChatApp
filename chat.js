@@ -25,43 +25,52 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(messages => {
                 chatList.innerHTML = '';
-                messages.forEach(message => {
-                    const li = document.createElement('li');
-                    li.classList.add('content');
-                    chatList.appendChild(li);
+                if (messages.length === 0) {
+                    chatList.innerHTML = `
+                        <li class="content">
+                            <div class="msg">
+                                <span class="text">No messages received.</span>
+                            </div>
+                        </li>`;
+                } else {
+                    messages.forEach(message => {
+                        const li = document.createElement('li');
+                        li.classList.add('content');
+                        chatList.appendChild(li);
 
-                    const msgDiv = document.createElement('div');
-                    msgDiv.classList.add('msg');
-                    li.appendChild(msgDiv);
+                        const msgDiv = document.createElement('div');
+                        msgDiv.classList.add('msg');
+                        li.appendChild(msgDiv);
 
-                    const authorSpan = document.createElement('span');
-                    authorSpan.classList.add('author');
-                    authorSpan.textContent = message.from + ': ';
-                    msgDiv.appendChild(authorSpan);
+                        const authorSpan = document.createElement('span');
+                        authorSpan.classList.add('author');
+                        authorSpan.textContent = message.from + ': ';
+                        msgDiv.appendChild(authorSpan);
 
-                    const textSpan = document.createElement('span');
-                    textSpan.classList.add('text');
-                    textSpan.textContent = message.msg;
-                    msgDiv.appendChild(textSpan);
+                        const textSpan = document.createElement('span');
+                        textSpan.classList.add('text');
+                        textSpan.textContent = message.msg;
+                        msgDiv.appendChild(textSpan);
 
-                    const timeElem = document.createElement('time');
-                    timeElem.classList.add('timestamp');
-                    const timestamp = new Date(message.time);
-                    const timeString = timestamp.toTimeString().split(' ')[0];
-                    timeElem.setAttribute('datetime', timeString);
-                    timeElem.textContent = timeString;
-                    li.appendChild(timeElem);
-                });
+                        const timeElem = document.createElement('time');
+                        timeElem.classList.add('timestamp');
+                        const timestamp = new Date(message.time);
+                        const timeString = timestamp.toTimeString().split(' ')[0];
+                        timeElem.setAttribute('datetime', timeString);
+                        timeElem.textContent = timeString;
+                        li.appendChild(timeElem);
+                    })
+                };
             })
             .catch(error => {
                 console.error('Error on loading messages:', error);
-            });
+            })
     }
 
     function sendMessage(event) {
         event.preventDefault();
 
-        const url = 'ajax_load_messages.php';
+        const url = 'ajax_send_message.php';
 
         const text = messageInput.value;
         if (text.trim() === '') return;
@@ -72,12 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                message: text,
+                msg: text,
                 to: chatpartner
             })
         })
             .then(response => {
-                if (response.ok) {
+                if (response.ok || response.status === 204) {
                     messageInput.value = '';
                     loadMessages();
                 }
