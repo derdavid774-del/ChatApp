@@ -23,6 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user->setDescription($_POST["description"] ?? "");
     $user->setChatLayout($_POST["layout"] ?? "");
 
+    $user->addToHistory();
+
     $service->saveUser($user); 
 
     header("Location: friends.php");
@@ -41,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <h1>Profile Settings</h1>
-    <form id="settings">
+    <form id="settings" action="settings.php" method="post">
         <fieldset class="data">
             <legend>Base Data</legend>
             <div class="container">

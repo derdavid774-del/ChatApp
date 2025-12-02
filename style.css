@@ -248,3 +248,13 @@ button:hover {
         margin-right: 0;
     }
 }
+
+.profile-information dt {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.profile-information dd {
+    margin-left: 0;
+    margin-bottom: 8px;
+}

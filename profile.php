@@ -1,12 +1,23 @@
 <?php
-    require("start.php");
+require("start.php");
 
-    $profileName = $_GET['friend'] ?? null;
+if (!isset($_SESSION["user"]) || empty($_SESSION["user"])) {
+    header("Location: login.php");
+    exit();
+}
+$profileName = $_GET['friend'] ?? null;
 
-    if ($profileName === null) {
-        header("Location: friends.php");
-        exit();
-    }
+if ($profileName === null) {
+    header("Location: friends.php");
+    exit();
+}
+
+$profileUser = $service->loadUser($profileName);
+
+if (!$profileUser) {
+    header("Location: friends.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -21,7 +32,7 @@
 <body>
     <h1>Profile of <?=htmlspecialchars($profileName)?></h1>
     <nav class="page-navigation">
-        <a href="chat.php">&lt; Back to Chat</a> |
+        <a href="chat.php?friend=<?= urlencode($profileName) ?>">&lt; Back to Chat</a> |
         <a class="link-special" href="friends.php?action=remove&friend=<?=urlencode($profileName)?>">Remove Friend</a>
     </nav>
 
@@ -30,28 +41,43 @@
         <ul class="container-wide">
             <li class="content">
                 <p class="profile-description">
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-                    et ea rebum.
-                    Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
-                    sit
-                    amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-                    aliquyam
-                    erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                    gubergren, no
-                    sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    <?php
+                        $desc = $profileUser->getDescription();
+                        echo !empty($desc) ? htmlspecialchars($desc) : "This user has not provided a description yet.";
+                    ?>         
                 </p>
             </li>
             <li class="content">
                 <dl class="profile-information">
-                    <dt>Coffee or Tea?</dt>
-                    <dd>Tea</dd>
                     <dt>Name:</dt>
-                    <dd>Thomas</dd>
+                    <dd>
+                        <?= htmlspecialchars($profileUser->getFirstName()) ?>
+                        <?= htmlspecialchars($profileUser->getLastName()) ?>
+                    </dd>
+                    <dt>Coffee or Tea?</dt>
+                    <dd>
+                        <?= htmlspecialchars($profileUser->getCoffeeOrTea()) ?>
+                    </dd>
+                    <dt>Preferred Chat Layout:</dt>
+                    <dd>
+                        <?= htmlspecialchars($profileUser->getChatLayout()) ?>
+                    </dd>
+                    <dt>History of Changes:</dt>
+                    <dd>
+                        <?php
+                        $history = $profileUser->getHistory();
+                        if (empty($history)) {
+                            echo "<li>No changes recorded.</li>";
+                        } else {
+                            foreach ($history as $entry) {
+                                echo "<li>" . htmlspecialchars($entry) . "</li>";
+                            }
+                        }
+                        ?>
+                    </dd>
                 </dl>
             </li>
         </ul>
     </div>
 </body>
-
 </html>
