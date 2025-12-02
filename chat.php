@@ -1,5 +1,14 @@
 <?php
-require("start.php");
+    require("start.php");
+
+    if (!isset($_SESSION['user'])) {
+        header("Location: login.php");
+        exit();
+    } else if (getChatPartner() === null) {
+        header("Location: friends.php");
+        exit();
+    }
+    $chatPartner = getChatPartner();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -12,11 +21,11 @@ require("start.php");
 </head>
 
 <body id="friends-page">
-    <h1>Chat with </h1>
+    <h1>Chat with <?=chatPartner()?></h1>
     <nav class="page-navigation">
         <a href="friends.php">&lt; Back</a> |
-        <a href="profile.php">Profile</a> |
-        <a class="link-special" href="friends.php">Remove Friend</a>
+        <a href="profile.php?friend=<?=urlencode($chatPartner)?>">Profile</a>
+        <a class="link-special" href="friends.php?action=remove&friend=<?=urlencode($chatPartner)?>">Remove Friend</a>
     </nav>
     <hr>
     <ul id="chat" class="container-wide">

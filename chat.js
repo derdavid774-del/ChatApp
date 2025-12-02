@@ -12,17 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return friendValue;
     }
     const chatpartner = getChatpartner();
-    friend.textContent = 'Chat with ' + chatpartner;
+    if (chatpartner) {
+        friend.textContent = 'Chat with ' + chatpartner;
+    }
 
     function loadMessages() {
-        const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiVG9tIiwiaWF0IjoxNzYyNjMyNTE2fQ.0IdQopPOUYM_WFuxoF5idej0_ezOKm1RGQL1uYEcD84';
-        const url = 'https://online-lectures-cs.thi.de/chat/104012ba-aafc-4150-8e92-7c78aa9b19f5/message/' + chatpartner;
+        const url = 'ajax_load_messages.php?to=' + encodeURIComponent(chatpartner);
 
         fetch(url, {
             method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + TOKEN
-            }
         })
             .then(response => response.json())
             .then(messages => {
@@ -63,8 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function sendMessage(event) {
         event.preventDefault();
 
-        const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiVG9tIiwiaWF0IjoxNzYyNjMyNTE2fQ.0IdQopPOUYM_WFuxoF5idej0_ezOKm1RGQL1uYEcD84';
-        const url = 'https://online-lectures-cs.thi.de/chat/104012ba-aafc-4150-8e92-7c78aa9b19f5/message';
+        const url = 'ajax_load_messages.php';
 
         const text = messageInput.value;
         if (text.trim() === '') return;
@@ -73,11 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + TOKEN
             },
             body: JSON.stringify({
                 message: text,
-                to: getChatpartner()
+                to: chatpartner
             })
         })
             .then(response => {
@@ -92,6 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     messageForm.addEventListener('submit', sendMessage);
 
-    loadMessages();
-    setInterval(loadMessages, 1000);
+    if (chatpartner) {
+        loadMessages();
+        setInterval(loadMessages, 1000);
+    }
 });

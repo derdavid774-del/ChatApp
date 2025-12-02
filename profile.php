@@ -1,5 +1,12 @@
 <?php
-require("start.php");
+    require("start.php");
+
+    $profileName = $_GET['friend'] ?? null;
+
+    if ($profileName === null) {
+        header("Location: friends.php");
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -12,10 +19,10 @@ require("start.php");
 </head>
 
 <body>
-    <h1>Profile of Tom</h1>
+    <h1>Profile of <?=htmlspecialchars($profileName)?></h1>
     <nav class="page-navigation">
         <a href="chat.php">&lt; Back to Chat</a> |
-        <a class="link-special" href="friends.php">Remove Friend</a>
+        <a class="link-special" href="friends.php?action=remove&friend=<?=urlencode($profileName)?>">Remove Friend</a>
     </nav>
 
     <div class="profile">

@@ -1,6 +1,27 @@
 <?php
-require("start.php");
-?>
+    require("start.php");
+
+    if (isset($_SESSION['user'])) {
+        if (isset($_GET['action']) && $_GET['action'] === 'remove' && isset($_GET['friend'])) {
+            $friendToRemove = $_GET['friend'];
+            $service->removeFriend($friendToRemove);
+
+            header("Location: friends.php");
+            exit();
+        }
+
+        if (isset($_POST['acceptBtn'])) {
+            $service->friendAccept($_POST['requestee']);
+        } else if (isset($_POST['rejectBtn'])) {
+            $service->friendDismiss($_POST['requestee']);
+        } else if (isset($_POST['addFriendBtn']) && $_POST['friendRequestName'] !== '') {
+            $service->friendRequest($_POST['friendRequestName']);
+        }
+    } else {
+        header("Location: login.php");
+    }
+?> 
+
 <!DOCTYPE html>
 <html lang="de">
 
@@ -28,24 +49,19 @@ require("start.php");
 
     <h2>New Requests</h2>
     <div class="friend-request">
-        <ol>
-            <li>
-                <span class="request-msg">Friend Request from</span>
-                <span class="requestee"><strong>Track</strong></span>
-                <div class="container-rqst-btn">
-                    <button class="btn-small">Accept</button>
-                    <button class="btn-small">Reject</button>
-                </div>
-            </li>
-        </ol>
+        <form method="post">
+            <ol></ol>
+        </form>
     </div>
     <hr>
 
     <form>
         <div class="container-txt-btn">
-            <input id="friend-request-name" name="friendRequestName" type="text" placeholder="Add Friend to List"
-                list="friend-selector">
-            <button id="add-friend-btn" type="button" class="btn-small">Add</button>
+            <form method="post">    
+                <input id="friend-request-name" name="friendRequestName" type="text" placeholder="Add Friend to List" list="friend-selector">
+                <button id="add-friend-btn" name="addFriendBtn" type="button" class="btn-small" >Add</button>
+            </form>
+ 
         </div>
     </form>
 

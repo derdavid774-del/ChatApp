@@ -10,6 +10,7 @@
             if ($service->register($username, $password)) {
                 $_SESSION['user'] = $username;
                 header("Location: friends.php");
+                exit();
             } else {
                 $error = 'Register failed due to server error. Please try again later.';
             }
@@ -18,6 +19,7 @@
         }
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="de">
 

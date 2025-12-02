@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    window.backendUrl = "https://online-lectures-cs.thi.de/chat/5929e8ea-f3a6-4ae3-b9b4-c0d0971e0f03";
+    window.backendUrl = "ajax_load_friends.php";
     window.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiVG9tIiwiaWF0IjoxNzYyODg5MzM3fQ.xmQhTmEqWai5zai8-U7_eV7bzCV1puiNRZmwl_vRYKo";
+    const backendService = "ajax_load_friends.php";
 
     const currentUsername = "Tom";
 
@@ -21,13 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadFriends() {
         const friendsRequest = new XMLHttpRequest();
 
-        friendsRequest.onreadystatechange = function () {
+        friendsRequest.onreadystatechange = function() {
             if (friendsRequest.readyState == 4 && friendsRequest.status == 200) {
                 const friends = JSON.parse(friendsRequest.responseText);
 
-                currentFriendUsernames = friends.map(
-                    (friend) => friend.username
-                );
+                currentFriendUsernames = friends.map((friend) => friend.username);
 
                 friendsListContainer.innerHTML = "";
                 requestsListContainer.innerHTML = "";
@@ -41,15 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         li.className = "content";
 
                         const userSpan = document.createElement("span");
-                        userSpan.className = "friend.user";
+                        userSpan.className = "friend-user";
 
                         //Query-Parameter
                         const userLink = document.createElement("a");
                         userLink.href = "chat.php?friend=" + friend.username;
                         userLink.textContent = friend.username;
                         userSpan.appendChild(userLink);
-
                         li.appendChild(userSpan);
+
 
                         if (friend.unread && friend.unread > 0) {
                             const notifySpan = document.createElement("span");
@@ -71,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         const nameSpan = document.createElement("span");
                         nameSpan.className = "requestee";
+                        nameSpan.name = "requestee";
                         const strong = document.createElement("strong");
                         strong.textContent = friend.username;
                         nameSpan.appendChild(strong);
@@ -81,11 +81,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         const acceptBtn = document.createElement("button");
                         acceptBtn.className = "btn-small";
+                        acceptBtn.name = "acceptBtn";
                         acceptBtn.textContent = "Accept";
                         btnContainer.appendChild(acceptBtn);
 
                         const rejectBtn = document.createElement("button");
                         rejectBtn.className = "btn-small";
+                        rejectBtn.name = "rejectBtn";
                         rejectBtn.textContent = "Reject";
                         btnContainer.appendChild(rejectBtn);
 
@@ -120,21 +122,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        friendsRequest.open("GET", window.backendUrl + "/friend", true);
-        friendsRequest.setRequestHeader(
-            "Authorization",
-            "Bearer " + window.token
-        );
-
+        friendsRequest.open("GET", window.backendUrl + "/user", true);
         friendsRequest.send();
     }
 
     function loadUsers() {
         const req = new XMLHttpRequest();
-        req.onreadystatechange = function () {
+        req.onreadystatechange = function() {
             if (req.readyState == 4 && req.status == 200) {
                 allUsersCache = JSON.parse(req.responseText);
-            } else if (req.readyState == 4) {
+            } else {
                 console.error("Error updating user list:", req.status);
             }
         };
@@ -171,14 +168,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const postRequest = new XMLHttpRequest();
-        postRequest.onreadystatechange = function () {
+        postRequest.onreadystatechange = function() {
             if (postRequest.readyState == 4 && postRequest.status == 204) {
                 alert(`Friend request sent to ${usernameToAdd}!`);
                 friendInputElement.value = "";
                 friendInputElement.style.border = "";
-
                 loadFriends();
-            } else if (postRequest.readyState == 4) {
+            } else {
                 alert("The friend request could not be sent.");
             }
         };
@@ -189,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "Authorization",
             "Bearer " + window.token
         );
-        let data = { username: usernameToAdd };
+        let data = {username: usernameToAdd};
         let jsonString = JSON.stringify(data);
         postRequest.send(jsonString);
     }
@@ -197,19 +193,16 @@ document.addEventListener("DOMContentLoaded", () => {
     addButtonElement.addEventListener("click", handleAddFriendClick);
 
     const initialUsersRequest = new XMLHttpRequest();
-    initialUsersRequest.onreadystatechange = function () {
+    initialUsersRequest.onreadystatechange = function() {
         if (initialUsersRequest.readyState == 4 && initialUsersRequest.status == 200) {
             allUsersCache = JSON.parse(initialUsersRequest.responseText);
 
-            window.setInterval(function () {
+            window.setInterval(function() {
                 loadFriends();
                 loadUsers();
             }, 1000);
-
-        } else if (initialUsersRequest.readyState == 4) {
-            alert(
-                "Critical Error: User list could not be loaded. The page will not function correctly."
-            );
+        } else {
+            alert("Critical Error: User list could not be loaded. The page will not function correctly.");
         }
     };
     initialUsersRequest.open("GET", window.backendUrl + "/user", true);
