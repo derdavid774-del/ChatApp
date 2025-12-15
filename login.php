@@ -30,14 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
-<body class="bg-light d-flex justify-content-center" style="padding-top: 200px;">
-    <div style="max-width: 350px;">
-        <div class="text-center mb-5">
-            <img src="images/chat.png" alt="Chat App Logo" class="rounded-circle" width="175">
-        </div>
+<body class="bg-light d-flex justify-content-center pt-5">
+    <div class="text-center">
+        <img src="images/chat.png" alt="Chat App Logo" class="rounded-circle mb-5" width="175">
         <div class="card">
             <div class="card-body p-5">
-                <h2 class="h4 mb-4 text-center">Please sign in</h2>
+                <h2 class="h4 mb-3 text-center">Please sign in</h2>
                 <form id="signIn" action="login.php" method="POST">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Username" required>
@@ -59,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
         <?php if (isset($error)) { ?>
                 <div class="error"> <?= $error ?> </div>
         <?php } ?>
-
     </div>
 </body>
 
