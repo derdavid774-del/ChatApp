@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 
-<body class="bg-light vh-100 d-flex align-items-center justify-content-center">
+<body class="bg-light d-flex justify-content-center" style="padding-top: 200px;">
     <div style="max-width: 350px;">
         <div class="text-center mb-5">
             <img src="images/chat.png" alt="Chat App Logo" class="rounded-circle" width="175">
@@ -39,18 +39,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username']) && isset(
             <div class="card-body p-5">
                 <h2 class="h4 mb-4 text-center">Please sign in</h2>
                 <form id="signIn" action="login.php" method="POST">
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Username" required>
+                        <label for="username">Username</label>
                     </div>
-                    <div class="mb-3">
+                    <div class="form-floating mb-3">
                         <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Password" required>
+                        <label for="password">Password</label>
                     </div>
                 </form>
         
                 <div class="btn-group w-100">
-                    <form action="register.php" method="get" class="flex-grow-1">
-                        <button class="btn btn-secondary btn-lg w-100">Register</button>
-                    </form>
+                    <a href="register.php" class="btn btn-secondary btn-lg">Register</a>
                     <button class="btn btn-primary btn-lg" form="signIn">Login</button>
                 </div>
             </div>

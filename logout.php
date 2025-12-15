@@ -13,7 +13,7 @@ session_unset();
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="bg-light vh-100 d-flex align-items-center justify-content-center">
+<body class="bg-light vh-100 d-flex justify-content-center" style="padding-top: 200px;">
     <div style="width: 350px;">
         <div class="text-center mb-5">
             <img src="images/logout.png" alt="Chat App Logo" class="rounded-circle" width="175">
