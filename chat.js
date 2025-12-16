@@ -27,15 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 chatList.innerHTML = '';
                 if (messages.length === 0) {
                     chatList.innerHTML = `
-                        <li class="content">
+                        <li class="list-group-item">
                             <div class="msg">
-                                <span class="text">No messages received.</span>
+                                <span class="text-muted">No messages received.</span>
                             </div>
                         </li>`;
                 } else {
                     messages.forEach(message => {
                         const li = document.createElement('li');
-                        li.classList.add('content');
+                        li.classList.add('list-group-item', 'border-0', 'd-flex', 'justify-content-between', 'align-items-center');
                         chatList.appendChild(li);
 
                         const msgDiv = document.createElement('div');
@@ -43,17 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         li.appendChild(msgDiv);
 
                         const authorSpan = document.createElement('span');
-                        authorSpan.classList.add('author');
+                        authorSpan.classList.add('me-2');
                         authorSpan.textContent = message.from + ': ';
                         msgDiv.appendChild(authorSpan);
 
                         const textSpan = document.createElement('span');
-                        textSpan.classList.add('text');
                         textSpan.textContent = message.msg;
                         msgDiv.appendChild(textSpan);
 
                         const timeElem = document.createElement('time');
-                        timeElem.classList.add('timestamp');
+                        timeElem.classList.add('text-muted');
                         const timestamp = new Date(message.time);
                         const timeString = timestamp.toTimeString().split(' ')[0];
                         timeElem.setAttribute('datetime', timeString);
