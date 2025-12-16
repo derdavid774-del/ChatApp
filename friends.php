@@ -61,46 +61,62 @@
 </head>
 
 <body class="bg-light" id="friends-page">
-    <h1>Friends</h1>
-    <div class="btn-group">
-        <a href="logout.php" class="btn btn-secondary">&lt; Logout</a>
-        <a href="settings.php" class="btn btn-secondary">Edit profile</a>
-</div>
-    <hr>
-
-    <ul class="container-wide">
-        <li class="content">
-            <span class="friend-user"><p>You have no friends.</p></span>
-        </li>
-    </ul>
-    <hr>
-
-    <h2>New Requests</h2>
-    <div class="friend-request">
-        <form method="post">
-            <ol></ol>
-        </form>
+<div class="container mt-4" style="max-width: 800px;">
+        <div class="justify-content-between align-items-center mb-3">
+        <h1>Friends</h1>
+        <div class="btn-group">
+            <a href="logout.php" class="btn btn-secondary">&lt; Logout</a>
+            <a href="settings.php" class="btn btn-secondary">Edit profile</a>
+        </div>
     </div>
     <hr>
 
-    <form>
-        <div class="container-txt-btn">
-            <form method="post">    
-                <input id="friend-request-name" name="friendRequestName" type="text" placeholder="Add Friend to List" list="friend-selector">
-                <button id="add-friend-btn" name="addFriendBtn" type="button" class="btn-small" >Add</button>
-            </form>
- 
+    <div class="list-group mb-4" id="friend-list">
+        <div class="list-group-item text-center text-muted">
+            You have no friends.
         </div>
-    </form>
+    </div>
+    <hr>
+
+    <h2 id="requests-header" class="h4 mb-3"></h2>
+    <div class="list-group mb-4" id="request-list">
+    </div>
+    <hr>
+
+
+    <div class="input-group mb-3">
+        <input id="friend-request-name" type="text" class="form-control" placeholder="Add Friend to List" list="friend-selector">
+        <button class="btn btn-primary" type="button" id="add-friend-btn">Add</button>
+    </div>
 
     <datalist id="friend-selector">
         <?php foreach ($availableUsers as $user): ?>
             <option value="<?= htmlspecialchars($user) ?>">
         <?php endforeach; ?>
     </datalist>
+</div>
 
-    <script src="friends.js"></script>
+<div class="modal" id="requestModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="requestModalLabel">Request from <strong id="modal-requester-name"></strong></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Accept request?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="modal-reject-btn">Dismiss</button>
+                    <button type="button" class="btn btn-primary" id="modal-accept-btn">Accept</button>
+                </div>
+            </div>
+        </div>
+</div>
+
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="friends.js"></script>
 </body>
 
 </html>
