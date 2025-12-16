@@ -1,22 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
     const currentUsername = "Tom";
 
-    const friendsListContainer = document.querySelector(
-        "#friends-page ul.container-wide"
-    );
-    const requestsListContainer = document.querySelector(
-        "#friends-page div.friend-request ol"
-    );
-    const requestsHeader = document.querySelector("#friends-page h2");
+    const friendsListContainer = document.getElementById("friend-list");
+    const requestsListContainer = document.getElementById("request-list");
+    const requestsHeader = document.getElementById("requests-header");
+
     const friendInputElement = document.getElementById("friend-request-name");
     const datalistElement = document.getElementById("friend-selector");
     const addButtonElement = document.getElementById("add-friend-btn");
 
+    const requestModalElement = document.getElementById("requestModal");
+    const requestModal = new bootstrap.Modal(requestModalElement);
+    const modalRequesterNameSpan = document.getElementById("modal-requester-name");
+    const modalAcceptBtn = document.getElementById("modal-accept-btn");
+    const modalRejectBtn = document.getElementById("modal-reject-btn");
+
     let currentFriendUsernames = [];
+    let currentRequestUser = null;
 
     function loadFriends() {
         const friendsRequest = new XMLHttpRequest();
-        friendsRequest.onreadystatechange = function() {
+        friendsRequest.onreadystatechange = function () {
             if (friendsRequest.readyState == 4 && friendsRequest.status == 200) {
                 const friends = JSON.parse(friendsRequest.responseText);
                 currentFriendUsernames = friends.map((friend) => friend.username);
@@ -26,77 +30,43 @@ document.addEventListener("DOMContentLoaded", () => {
                 requestsHeader.style.display = "none";
 
                 let hasRequests = false;
+                let hasFriends = false;
 
                 friends.forEach((friend) => {
                     if (friend.status === "accepted") {
-                        const li = document.createElement("li");
-                        li.className = "content";
-
-                        const userSpan = document.createElement("span");
-                        userSpan.className = "friend-user";
-
-                        //Query-Parameter
-                        const userLink = document.createElement("a");
-                        userLink.href = "chat.php?friend=" + friend.username;
-                        userLink.textContent = friend.username;
-                        userSpan.appendChild(userLink);
-                        li.appendChild(userSpan);
+                        hasFriends = true;
+                        const a = document.createElement("a");
+                        a.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center";
+                        a.href = "chat.php?friend=" + encodeURIComponent(friend.username);
+                        a.textContent = friend.username;
 
                         if (friend.unread && friend.unread > 0) {
                             const notifySpan = document.createElement("span");
-                            notifySpan.className = "notification";
+                            notifySpan.className = "badge bg-primary rounded-pill";
                             notifySpan.textContent = friend.unread;
                             li.appendChild(notifySpan);
                         }
-                        friendsListContainer.appendChild(li);
+                        friendsListContainer.appendChild(a);
 
                     } else if (friend.status === "requested") {
                         hasRequests = true;
 
-                        const li = document.createElement("li");
+                        const btn = document.createElement("button");
+                        btn.className = "list-group-item list-group-item-action list-group-item-light";
+                        btn.innerHTML = `Request from <strong>${friend.username}</strong>`;
 
-                        const msgSpan = document.createElement("span");
-                        msgSpan.className = "request-msg";
-                        msgSpan.textContent = "Friend Request from ";
-                        li.appendChild(msgSpan);
-
-                        const nameSpan = document.createElement("span");
-                        nameSpan.className = "requestee";
-                        nameSpan.name = "requestee";
-                        const strong = document.createElement("strong");
-                        strong.textContent = friend.username;
-                        nameSpan.appendChild(strong);
-                        li.appendChild(nameSpan);
-
-                        const btnContainer = document.createElement("div");
-                        btnContainer.className = "container-rqst-btn";
-
-                        const acceptBtn = document.createElement("button");
-                        acceptBtn.className = "btn-small";
-                        acceptBtn.name = "acceptBtn";
-                        acceptBtn.textContent = "Accept";
-                        acceptBtn.onclick = function() { 
-                            handleRequestAction(friend.username, 'accept'); 
+                        btn.onclick = function () {
+                            showRequestModal(friend.username);
                         };
-                        btnContainer.appendChild(acceptBtn);
-
-                        const rejectBtn = document.createElement("button");
-                        rejectBtn.className = "btn-small";
-                        rejectBtn.name = "rejectBtn";
-                        rejectBtn.textContent = "Reject";
-                        rejectBtn.onclick = function() { 
-                            handleRequestAction(friend.username, 'reject'); 
-                        };
-                        btnContainer.appendChild(rejectBtn);
-
-                        li.appendChild(btnContainer);
-                        requestsListContainer.appendChild(li);
+                        requestsListContainer.appendChild(btn);
                     }
                 });
 
-                if (hasRequests) {
-                    requestsHeader.style.display = "block";
+                if (!hasFriends) {
+                    friendsListContainer.innerHTML = '<div class="list-group-item text-center text-muted">No friends yet.</div>';
                 }
+
+                requestsHeader.style.display = hasRequests ? "block" : "none";
 
             } else if (friendsRequest.readyState == 4) {
                 console.error("Error updating friend list:", friendsRequest.status);
@@ -107,22 +77,43 @@ document.addEventListener("DOMContentLoaded", () => {
         friendsRequest.send();
     }
 
+    function showRequestModal(username) {
+        currentRequestUser = username;
+        modalRequesterNameSpan.textContent = username;
+        requestModal.show();
+    }
+
+    modalAcceptBtn.onclick = function () {
+        if (currentRequestUser) {
+            handleRequestAction(currentRequestUser, "accept");
+            requestModal.hide();
+        }
+    };
+
+    modalRejectBtn.onclick = function () {
+        if (currentRequestUser) {
+            handleRequestAction(currentRequestUser, "reject");
+            requestModal.hide();
+        }
+    };
+
+
     function handleRequestAction(username, action) {
         const req = new XMLHttpRequest();
-        req.onreadystatechange = function() {
+        req.onreadystatechange = function () {
             if (req.readyState == 4) {
-                if(req.status == 200 || req.status == 204) {
+                if (req.status == 200 || req.status == 204) {
                     loadFriends();
                 } else {
                     alert("action failed.");
                 }
             }
         };
-        
-        req.open("POST", "friends.php", true); 
+
+        req.open("POST", "friends.php", true);
         req.setRequestHeader("Content-type", "application/json");
-        req.send(JSON.stringify({ 
-            username: username, 
+        req.send(JSON.stringify({
+            username: username,
             action: action
         }));
     }
@@ -148,8 +139,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-     const checkReq = new XMLHttpRequest();
-        checkReq.onreadystatechange = function() {
+        const checkReq = new XMLHttpRequest();
+        checkReq.onreadystatechange = function () {
             if (checkReq.readyState == 4) {
                 if (checkReq.status == 204 || checkReq.status == 200) {
                     sendFriendRequest(usernameToAdd);
@@ -166,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function sendFriendRequest(username) {
         const postRequest = new XMLHttpRequest();
-        postRequest.onreadystatechange = function() {
+        postRequest.onreadystatechange = function () {
             if (postRequest.readyState == 4) {
                 if (postRequest.status == 204 || postRequest.status == 200) {
                     alert(`Request has been sent to ${username}!`);
@@ -188,8 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadFriends();
 
-    window.setInterval(function() {
+    window.setInterval(function () {
         loadFriends();
-        loadUsers();
     }, 1000);
 });
