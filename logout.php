@@ -13,7 +13,7 @@ session_unset();
 </head>
 
 <body class="bg-light d-flex justify-content-center pt-5">
-    <div class="text-center w-50">
+    <div class="text-center col-lg-2">
             <img src="images/logout.png" alt="Chat App Logo" class="rounded-circle mb-5" width="175">
         <div class="card">
             <div class="card-body p-5">

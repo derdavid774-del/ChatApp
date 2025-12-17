@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             const notifySpan = document.createElement("span");
                             notifySpan.className = "badge bg-primary rounded-pill";
                             notifySpan.textContent = friend.unread;
-                            li.appendChild(notifySpan);
+                            a.appendChild(notifySpan);
                         }
                         friendsListContainer.appendChild(a);
 
